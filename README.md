@@ -1,1 +1,1 @@
-# Marc-Ba-eres-Farr-n-GSoC-2025
+# Marc-Bañeres-Farrán GSoC 2025
