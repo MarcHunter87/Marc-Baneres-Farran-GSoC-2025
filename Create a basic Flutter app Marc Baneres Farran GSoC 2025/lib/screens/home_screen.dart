@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
                       onPress: () async {
-                        // TODO 14: Implement relaunchLG() as async task
+                        await ssh.sendLogos();
                       },
                       cardChild: const Center(
                         child: Text(
@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
                       onPress: () async {
-                        // TODO 21: Implement rebootLG() as async task and test
+                        await ssh.clearLogos();
                       },
                       cardChild: const Center(
                         child: Text(
@@ -133,10 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
-                      onPress: () async {
-                        SSHSession? result = await ssh.cleanKML();
-                        print('KMLs cleaned successfully');
-                                            },
+                      onPress: () async {},
                       cardChild: const Center(
                         child: Text(
                           'CLEAN KMLS',

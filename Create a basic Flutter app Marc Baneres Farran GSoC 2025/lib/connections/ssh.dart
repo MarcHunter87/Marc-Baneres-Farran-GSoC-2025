@@ -12,7 +12,6 @@ class SSH {
   late String _numberOfRigs;
   SSHClient? _client;
 
-  // Initialize connection details from shared preferences
   Future<void> initConnectionDetails() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     _host = prefs.getString('ipAddress') ?? 'default_host';
@@ -22,7 +21,6 @@ class SSH {
     _numberOfRigs = '3';
   }
 
-  // Connect to the Liquid Galaxy system
   Future<bool?> connectToLG() async {
     await initConnectionDetails();
 
@@ -58,22 +56,67 @@ class SSH {
     }
   }
 
-  Future<SSHSession?> cleanKML() async {
+  Future<SSHSession?> sendLogos() async {
     try {
       if (_client == null) {
         print('SSH client is not initialized.');
         return null;
       }
 
-      final execResult = await _client!.execute('''
-        echo "" > /tmp/query.txt
-        echo "" > /var/www/html/kmls.txt
-      ''');
+      int leftMostRig = (int.parse(_numberOfRigs) / 2).floor() + 2;
+      double factor = 300 * (6190 / 6054);
 
-      print('KML cleaned successfully');
+      String KML = '''<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <Folder>
+      <name>Logos</name>
+      <ScreenOverlay>
+        <name>Logo</name>
+        <Icon>
+        <href>https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXmdNgBTXup6bdWew5RzgCmC9pPb7rK487CpiscWB2S8OlhwFHmeeACHIIjx4B5-Iv-t95mNUx0JhB_oATG3-Tq1gs8Uj0-Xb9Njye6rHtKKsnJQJlzZqJxMDnj_2TXX3eA5x6VSgc8aw/s320-rw/LOGO+LIQUID+GALAXY-sq1000-+OKnoline.png</href>
+        </Icon>
+        <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+        <screenXY x="0.02" y="0.95" xunits="fraction" yunits="fraction"/>
+        <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
+        <size x="300" y="${factor}" xunits="pixels" yunits="pixels"/>
+      </ScreenOverlay>
+    </Folder>
+  </Document>
+</kml>''';
+
+      final execResult = await _client!
+          .execute('echo \'$KML\' > /var/www/html/kml/slave_$leftMostRig.kml');
+
+      await _client!
+          .execute('chmod 777 /var/www/html/kml/slave_$leftMostRig.kml');
+
+      print(
+          "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftMostRig.kml");
       return execResult;
     } catch (e) {
-      print('Error cleaning KML: $e');
+      print('An error occurred while executing the command: $e');
+      return null;
+    }
+  }
+
+  Future<SSHSession?> clearLogos() async {
+    try {
+      if (_client == null) {
+        print('SSH client is not initialized.');
+        return null;
+      }
+      int leftMostRig = (int.parse(_numberOfRigs) / 2).floor() + 2;
+      String KML = '';
+
+      final execResult = await _client!
+          .execute("echo '$KML' > /var/www/html/kml/slave_$leftMostRig.kml");
+
+      print(
+          "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftMostRig.kml");
+      return execResult;
+    } catch (e) {
+      print('An error occurred while executing the command: $e');
       return null;
     }
   }
