@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:create_a_basic_flutter_app_marc_baneres_farran_gsoc_2025/components/connection_flag.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:create_a_basic_flutter_app_marc_baneres_farran_gsoc_2025/connections/ssh.dart';
-import 'package:dartssh2/dartssh2.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -170,9 +169,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       connectionStatus = true;
                     });
                     print('Connected to LG successfully');
-                    SSHSession? execResult = await ssh.execute();
+                    await ssh.execute();
                     print('Command executed successfully');
-                                    }
+                  }
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),

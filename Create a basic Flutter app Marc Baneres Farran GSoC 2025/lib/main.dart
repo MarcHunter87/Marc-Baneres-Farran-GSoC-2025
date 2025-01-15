@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomeScreen(), // Root route
-        '/settings': (context) => const SettingsPage(), // Settings route
+        '/': (context) => const HomeScreen(),
+        '/settings': (context) => const SettingsPage(),
       },
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFE0E0E0),

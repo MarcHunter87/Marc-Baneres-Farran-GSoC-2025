@@ -79,7 +79,7 @@ class SSH {
         <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
         <screenXY x="0.02" y="0.95" xunits="fraction" yunits="fraction"/>
         <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
-        <size x="300" y="${factor}" xunits="pixels" yunits="pixels"/>
+        <size x="300" y="$factor" xunits="pixels" yunits="pixels"/>
       </ScreenOverlay>
     </Folder>
   </Document>
@@ -106,14 +106,14 @@ class SSH {
         print('SSH client is not initialized.');
         return null;
       }
-      int leftMostRig = (int.parse(_numberOfRigs) / 2).floor() + 2;
+      int leftScreen = (int.parse(_numberOfRigs) / 2).floor() + 2;
       String KML = '';
 
       final execResult = await _client!
-          .execute("echo '$KML' > /var/www/html/kml/slave_$leftMostRig.kml");
+          .execute("echo '$KML' > /var/www/html/kml/slave_$leftScreen.kml");
 
       print(
-          "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftMostRig.kml");
+          "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftScreen.kml");
       return execResult;
     } catch (e) {
       print('An error occurred while executing the command: $e');

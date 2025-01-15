@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:create_a_basic_flutter_app_marc_baneres_farran_gsoc_2025/components/connection_flag.dart';
 import 'package:create_a_basic_flutter_app_marc_baneres_farran_gsoc_2025/connections/ssh.dart';
-import 'package:dartssh2/dartssh2.dart';
 
 import '../components/reusable_card.dart';
 
 bool connectionStatus = false;
-// TODO 17: Initialize const String searchPlace
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -81,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
                       onPress: () async {
-                        // TODO 15: Implement shutdownLG() as async task
+                        // TODO 15:
                       },
                       cardChild: const Center(
                         child: Text(
@@ -98,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
                       onPress: () async {
-                        // TODO 16: Implement clearKML() as async task and test
+                        // TODO 16:
                       },
                       cardChild: const Center(
                         child: Text(
