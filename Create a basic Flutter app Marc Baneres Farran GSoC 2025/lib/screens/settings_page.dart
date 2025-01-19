@@ -34,6 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _sshPortController = TextEditingController();
+  final TextEditingController _rigsController = TextEditingController();
 
   @override
   void dispose() {
@@ -41,6 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
     _usernameController.dispose();
     _passwordController.dispose();
     _sshPortController.dispose();
+    _rigsController.dispose();
     super.dispose();
   }
 
@@ -51,6 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
       _usernameController.text = prefs.getString('username') ?? '';
       _passwordController.text = prefs.getString('password') ?? '';
       _sshPortController.text = prefs.getString('sshPort') ?? '';
+      _rigsController.text = prefs.getString('numberOfRigs') ?? '';
     });
   }
 
@@ -68,6 +71,9 @@ class _SettingsPageState extends State<SettingsPage> {
     }
     if (_sshPortController.text.isNotEmpty) {
       await prefs.setString('sshPort', _sshPortController.text);
+    }
+    if (_rigsController.text.isNotEmpty) {
+      await prefs.setString('numberOfRigs', _rigsController.text);
     }
   }
 
@@ -142,6 +148,17 @@ class _SettingsPageState extends State<SettingsPage> {
                   prefixIcon: Icon(Icons.settings_ethernet),
                   labelText: 'SSH Port',
                   hintText: '22',
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _rigsController,
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.memory),
+                  labelText: 'No. of LG rigs',
+                  hintText: 'Enter the number of rigs',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,

@@ -18,7 +18,7 @@ class SSH {
     _port = prefs.getString('sshPort') ?? '22';
     _username = prefs.getString('username') ?? 'lg';
     _passwordOrKey = prefs.getString('password') ?? 'lg';
-    _numberOfRigs = '3';
+    _numberOfRigs = prefs.getString('numberOfRigs') ?? '3';
   }
 
   Future<bool?> connectToLG() async {
@@ -95,7 +95,7 @@ class SSH {
           "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftMostRig.kml");
       return execResult;
     } catch (e) {
-      print('An error occurred while executing the command: $e');
+      print('An error occurred while sending the logos: $e');
       return null;
     }
   }
@@ -116,7 +116,7 @@ class SSH {
           "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftScreen.kml");
       return execResult;
     } catch (e) {
-      print('An error occurred while executing the command: $e');
+      print('An error occurred while clearing the logos: $e');
       return null;
     }
   }

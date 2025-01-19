@@ -78,9 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
-                      onPress: () async {
-                        // TODO 15:
-                      },
+                      onPress: () async {},
                       cardChild: const Center(
                         child: Text(
                           'SEND FIRST KML',
@@ -118,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       cardChild: const Center(
                         child: Text(
-                          'CLEAN LG LOGOS',
+                          'CLEAR LG LOGOS',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -134,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPress: () async {},
                       cardChild: const Center(
                         child: Text(
-                          'CLEAN KMLS',
+                          'CLEAR KMLS',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
