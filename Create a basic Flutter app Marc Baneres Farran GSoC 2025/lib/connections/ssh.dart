@@ -88,8 +88,8 @@ class SSH {
       final execResult = await _client!
           .execute('echo \'$KML\' > /var/www/html/kml/slave_$leftMostRig.kml');
 
-      await _client!
-          .execute('chmod 777 /var/www/html/kml/slave_$leftMostRig.kml');
+            // await _client!
+      //     .execute('chmod 777 /var/www/html/kml/slave_$leftMostRig.kml');
 
       print(
           "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftMostRig.kml");
