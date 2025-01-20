@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>Tokyo</name>
+	<gx:CascadingStyle kml:id="__managed_style_2F741EBCCA35B87EE4F2">
+		<Style>
+			<IconStyle>
+				<scale>2.4</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=ab47bc&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>6</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1F43D6536A35B87EE4F2">
+		<Style>
+			<IconStyle>
+				<scale>2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=ab47bc&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_07EA3870D835B87EE4F2">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1F43D6536A35B87EE4F2</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2F741EBCCA35B87EE4F2</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_20BA4ED88835B88076E2">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff58eeff</color>
+				<width>6</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40bc47ab</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1DEAD7288535B88076E2">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff58eeff</color>
+				<width>4</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40bc47ab</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0D413F6E2435B88076E2">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1DEAD7288535B88076E2</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_20BA4ED88835B88076E2</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Placemark id="0CA9DF258B35B87CD443">
+		<name>Polígono</name>
+		<LookAt>
+			<longitude>139.3222637810856</longitude>
+			<latitude>35.71160144748687</latitude>
+			<altitude>88.32635966242405</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>229541.0707726702</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0D413F6E2435B88076E2</styleUrl>
+		<Polygon>
+			<outerBoundaryIs>
+				<LinearRing>
+					<coordinates>
+						138.9866087849153,35.78198822492674,0 139.0083654889674,35.73965090323613,0 139.0591275267539,35.70424092463719,0 139.2020684110282,35.64757085871986,0 139.2311103753852,35.6157255944613,0 139.253004584149,35.60475978081946,0 139.2720591903731,35.60734157200712,0 139.3809632775649,35.58800025183462,0 139.4781323146667,35.51053976683628,0 139.4897686255755,35.57942458001155,0 139.4578201112686,35.61898441015372,0 139.4977101709822,35.60529849117738,0 139.521853969385,35.63474849698171,0 139.6141829289093,35.61366273549779,0 139.6994094455839,35.53679500519974,0 139.7967210325115,35.53328607504528,0 139.8133575901316,35.57005650781789,0 139.8737119930571,35.63236925823492,0 139.9208419719346,35.6960059769342,0 139.8765701301649,35.79229065858235,0 139.7660043953117,35.81438861110118,0 139.7508984609028,35.77646791414132,0 139.6603753976502,35.80247421068555,0 139.6173806222256,35.77477663642726,0 139.5485996432853,35.76202566142401,0 139.5397710447113,35.802242991993,0 139.4787172018023,35.77966890886729,0 139.3967087713945,35.7670265804919,0 139.3657703347647,35.79073772529853,0 139.3261802277,35.80164222697584,0 139.297164721434,35.83635379541111,0 139.1937544492694,35.84499036543473,0 139.1163386876089,35.86821615864323,0 139.0626810349104,35.87677134958012,0 139.0228615180076,35.89929405333018,0 138.9347573023656,35.86704312109161,0 138.9866087849153,35.78198822492674,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+	<Placemark id="0172950D6C35B87ECDDC">
+		<name>Marcador</name>
+		<LookAt>
+			<longitude>139.3999061457008</longitude>
+			<latitude>35.7460918632633</latitude>
+			<altitude>89.66720063950773</altitude>
+			<heading>22.36091079806449</heading>
+			<tilt>7.336972966847537</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>167202.2197928466</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_07EA3870D835B87EE4F2</styleUrl>
+		<Point>
+			<coordinates>139.2089060888875,35.74847068275805,0</coordinates>
+		</Point>
+	</Placemark>
+</Document>
+</kml>
