@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:create_a_basic_flutter_app_marc_baneres_farran_gsoc_2025/components/connection_flag.dart';
 import 'package:create_a_basic_flutter_app_marc_baneres_farran_gsoc_2025/connections/ssh.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 import '../components/reusable_card.dart';
 
@@ -78,7 +80,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
-                      onPress: () async {},
+                      onPress: () async {
+                        String content = await rootBundle
+                            .loadString('lib/models/kml/Lleida.kml');
+                        await ssh.makeFile('Lleida', content);
+                        await ssh.uploadKMLFile(File('Lleida.kml'), 'Lleida');
+                        await ssh.loadKML('Lleida.kml');
+                      },
                       cardChild: const Center(
                         child: Text(
                           'SEND FIRST KML',

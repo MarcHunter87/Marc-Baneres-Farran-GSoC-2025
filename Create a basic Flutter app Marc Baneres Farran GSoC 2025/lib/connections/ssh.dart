@@ -1,6 +1,7 @@
 import 'package:dartssh2/dartssh2.dart';
 import 'dart:async';
 import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -88,9 +89,6 @@ class SSH {
       final execResult = await _client!
           .execute('echo \'$KML\' > /var/www/html/kml/slave_$leftMostRig.kml');
 
-            // await _client!
-      //     .execute('chmod 777 /var/www/html/kml/slave_$leftMostRig.kml');
-
       print(
           "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftMostRig.kml");
       return execResult;
@@ -118,6 +116,43 @@ class SSH {
     } catch (e) {
       print('An error occurred while clearing the logos: $e');
       return null;
+    }
+  }
+
+  makeFile(String filename, String content) async {
+    try {
+      var localPath = await getApplicationDocumentsDirectory();
+      File localFile = File('$localPath.path/$filename.kml');
+      await localFile.writeAsString(content);
+      return localFile;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  uploadKMLFile(File inputFile, String kmlName) async {
+    try {
+      bool uploading = true;
+      final sftp = await _client!.sftp();
+      final file = await sftp.open('/var/www/html/$kmlName.kml',
+          mode: SftpFileOpenMode.create |
+              SftpFileOpenMode.truncate |
+              SftpFileOpenMode.write);
+      var fileSize = await inputFile.length();
+      file.write(inputFile.openRead().cast(), onProgress: (progress) async {
+        if (fileSize == progress) {
+          uploading = false;
+        }
+      });
+    } catch (e) {}
+  }
+
+  loadKML(String kmlName) async {
+    try {
+      final v = await _client!.execute(
+          "echo 'http://lg1:81/$kmlName.kml' > /var/www/html/kmls.txt");
+    } catch (error) {
+      await loadKML(kmlName);
     }
   }
 }
