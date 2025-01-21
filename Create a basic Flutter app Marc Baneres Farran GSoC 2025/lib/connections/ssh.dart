@@ -105,7 +105,12 @@ class SSH {
         return null;
       }
       int leftScreen = (int.parse(_numberOfRigs) / 2).floor() + 2;
-      String KML = '';
+      String KML = '''
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+  <Document>
+  </Document>
+</kml>''';
 
       final execResult = await _client!
           .execute("echo '$KML' > /var/www/html/kml/slave_$leftScreen.kml");
@@ -122,10 +127,11 @@ class SSH {
   makeFile(String filename, String content) async {
     try {
       var localPath = await getApplicationDocumentsDirectory();
-      File localFile = File('$localPath.path/$filename.kml');
+      File localFile = File('${localPath.path}/${filename}.kml');
       await localFile.writeAsString(content);
       return localFile;
     } catch (e) {
+      print('An error occurred while creating the file: $e');
       return null;
     }
   }
@@ -144,15 +150,35 @@ class SSH {
           uploading = false;
         }
       });
-    } catch (e) {}
+    } catch (e) {
+      print('An error occurred while uploading the file: $e');
+    }
   }
 
   loadKML(String kmlName) async {
     try {
       final v = await _client!.execute(
           "echo 'http://lg1:81/$kmlName.kml' > /var/www/html/kmls.txt");
-    } catch (error) {
+    } catch (e) {
+      print('An error occurred while loading the KML: $e');
       await loadKML(kmlName);
+    }
+  }
+
+  clearKML() async {
+    try {
+      String KML = '''
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+  <Document>
+  </Document>
+</kml>''';
+
+      final execResult =
+          await _client!.execute("echo '$KML' > /var/www/html/kmls.txt");
+    } catch (e) {
+      print('An error occurred while clearing the KML: $e');
+      await clearKML();
     }
   }
 }

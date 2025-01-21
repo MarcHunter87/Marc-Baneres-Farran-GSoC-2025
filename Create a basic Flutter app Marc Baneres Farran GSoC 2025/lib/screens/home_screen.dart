@@ -82,10 +82,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       colour: const Color(0xFF424242),
                       onPress: () async {
                         String content = await rootBundle
-                            .loadString('lib/models/kml/Lleida.kml');
-                        await ssh.makeFile('Lleida', content);
-                        await ssh.uploadKMLFile(File('Lleida.kml'), 'Lleida');
-                        await ssh.loadKML('Lleida.kml');
+                            .loadString('lib/files/kml/Lleida.kml');
+                        File? localFile = await ssh.makeFile('Lleida', content);
+                        if (localFile != null) {
+                          String fileContent = await localFile.readAsString();
+
+                          await ssh.uploadKMLFile(localFile, 'Lleida');
+                          await ssh.loadKML('Lleida');
+                        } else {
+                          print('The file is null');
+                        }
                       },
                       cardChild: const Center(
                         child: Text(
@@ -102,7 +108,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
                       onPress: () async {
-                        // TODO 16:
+                        String content = await rootBundle
+                            .loadString('lib/files/kml/Tokyo.kml');
+                        File? localFile = await ssh.makeFile('Tokyo', content);
+                        if (localFile != null) {
+                          String fileContent = await localFile.readAsString();
+
+                          await ssh.uploadKMLFile(localFile, 'Tokyo');
+                          await ssh.loadKML('Tokyo');
+                        } else {
+                          print('The file is null');
+                        }
                       },
                       cardChild: const Center(
                         child: Text(
