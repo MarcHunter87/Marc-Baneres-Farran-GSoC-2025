@@ -98,32 +98,6 @@ class SSH {
     }
   }
 
-  Future<SSHSession?> clearLogos() async {
-    try {
-      if (_client == null) {
-        print('SSH client is not initialized.');
-        return null;
-      }
-      int leftScreen = (int.parse(_numberOfRigs) / 2).floor() + 2;
-      String KML = '''
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
-  <Document>
-  </Document>
-</kml>''';
-
-      final execResult = await _client!
-          .execute("echo '$KML' > /var/www/html/kml/slave_$leftScreen.kml");
-
-      print(
-          "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftScreen.kml");
-      return execResult;
-    } catch (e) {
-      print('An error occurred while clearing the logos: $e');
-      return null;
-    }
-  }
-
   makeFile(String filename, String content) async {
     try {
       var localPath = await getApplicationDocumentsDirectory();
@@ -165,8 +139,13 @@ class SSH {
     }
   }
 
-  clearKML() async {
+  Future<SSHSession?> clearLogos() async {
     try {
+      if (_client == null) {
+        print('SSH client is not initialized.');
+        return null;
+      }
+      int leftScreen = (int.parse(_numberOfRigs) / 2).floor() + 2;
       String KML = '''
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -174,8 +153,24 @@ class SSH {
   </Document>
 </kml>''';
 
+      final execResult = await _client!
+          .execute("echo '$KML' > /var/www/html/kml/slave_$leftScreen.kml");
+
+      print(
+          "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftScreen.kml");
+      return execResult;
+    } catch (e) {
+      print('An error occurred while clearing the logos: $e');
+      return null;
+    }
+  }
+
+  clearKML() async {
+    try {
       final execResult =
-          await _client!.execute("echo '$KML' > /var/www/html/kmls.txt");
+          await _client!.execute("echo '' > /var/www/html/kmls.txt");
+      print(
+          "chmod 777 /var/www/html/kml/kmls.txt; echo '' > /var/www/html/kmls.txt");
     } catch (e) {
       print('An error occurred while clearing the KML: $e');
       await clearKML();

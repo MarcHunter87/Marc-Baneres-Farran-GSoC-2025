@@ -153,7 +153,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
-                      onPress: () async {},
+                      onPress: () async {
+                        await ssh.clearKML();
+                      },
                       cardChild: const Center(
                         child: Text(
                           'CLEAR KMLS',

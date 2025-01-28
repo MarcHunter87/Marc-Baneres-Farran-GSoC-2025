@@ -186,8 +186,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       connectionStatus = true;
                     });
                     print('Connected to LG successfully');
-                    await ssh.execute();
-                    print('Command executed successfully');
                   }
                 },
                 child: const Padding(
