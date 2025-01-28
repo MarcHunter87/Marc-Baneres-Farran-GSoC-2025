@@ -13,6 +13,7 @@ dependencies:
   shared_preferences: ^2.2.2
   dartssh2: ^2.11.0
   path_provider: ^2.1.2
+  xml: ^6.4.0
 
 dev_dependencies:
   flutter_test:

@@ -139,6 +139,26 @@ class SSH {
     }
   }
 
+  Future<void> flyTo(double longitude, double latitude, double altitude,
+      double heading, double tilt, double range) async {
+    try {
+      final command =
+          'echo "flytoview=<gx:duration>3</gx:duration><gx:flyToMode>smooth</gx:flyToMode>'
+          '<LookAt>'
+          '<longitude>$longitude</longitude>'
+          '<latitude>$latitude</latitude>'
+          '<altitude>$altitude</altitude>'
+          '<heading>$heading</heading>'
+          '<tilt>$tilt</tilt>'
+          '<range>$range</range>'
+          '</LookAt>" > /tmp/query.txt';
+
+      await _client!.execute(command);
+    } catch (e) {
+      print('An error occurred while executing the command: $e');
+    }
+  }
+
   Future<SSHSession?> clearLogos() async {
     try {
       if (_client == null) {

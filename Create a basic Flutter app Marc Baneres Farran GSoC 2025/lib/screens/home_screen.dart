@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:create_a_basic_flutter_app_marc_baneres_farran_gsoc_2025/components/connection_flag.dart';
 import 'package:create_a_basic_flutter_app_marc_baneres_farran_gsoc_2025/connections/ssh.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:xml/xml.dart' as xml;
 
 import '../components/reusable_card.dart';
 
@@ -85,10 +86,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             .loadString('lib/files/kml/Lleida.kml');
                         File? localFile = await ssh.makeFile('Lleida', content);
                         if (localFile != null) {
-                          String fileContent = await localFile.readAsString();
-
                           await ssh.uploadKMLFile(localFile, 'Lleida');
                           await ssh.loadKML('Lleida');
+
+                          final document = xml.XmlDocument.parse(content);
+                          final lookAt =
+                              document.findAllElements('LookAt').first;
+
+                          final longitude = double.parse(
+                              lookAt.findElements('longitude').first.innerText);
+                          final latitude = double.parse(
+                              lookAt.findElements('latitude').first.innerText);
+                          final altitude = double.parse(
+                              lookAt.findElements('altitude').first.innerText);
+                          final heading = double.parse(
+                              lookAt.findElements('heading').first.innerText);
+                          final tilt = double.parse(
+                              lookAt.findElements('tilt').first.innerText);
+                          final range = double.parse(
+                              lookAt.findElements('range').first.innerText);
+
+                          await ssh.flyTo(longitude, latitude, altitude,
+                              heading, tilt, range);
                         } else {
                           print('The file is null');
                         }
@@ -112,10 +131,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             .loadString('lib/files/kml/Tokyo.kml');
                         File? localFile = await ssh.makeFile('Tokyo', content);
                         if (localFile != null) {
-                          String fileContent = await localFile.readAsString();
-
                           await ssh.uploadKMLFile(localFile, 'Tokyo');
                           await ssh.loadKML('Tokyo');
+
+                          final document = xml.XmlDocument.parse(content);
+                          final lookAt =
+                              document.findAllElements('LookAt').first;
+
+                          final longitude = double.parse(
+                              lookAt.findElements('longitude').first.innerText);
+                          final latitude = double.parse(
+                              lookAt.findElements('latitude').first.innerText);
+                          final altitude = double.parse(
+                              lookAt.findElements('altitude').first.innerText);
+                          final heading = double.parse(
+                              lookAt.findElements('heading').first.innerText);
+                          final tilt = double.parse(
+                              lookAt.findElements('tilt').first.innerText);
+                          final range = double.parse(
+                              lookAt.findElements('range').first.innerText);
+
+                          await ssh.flyTo(longitude, latitude, altitude,
+                              heading, tilt, range);
                         } else {
                           print('The file is null');
                         }
