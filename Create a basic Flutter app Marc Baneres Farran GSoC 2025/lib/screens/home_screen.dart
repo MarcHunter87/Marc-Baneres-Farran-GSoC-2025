@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('LG Connection'),
+        title: const Text('LG App'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.settings),
