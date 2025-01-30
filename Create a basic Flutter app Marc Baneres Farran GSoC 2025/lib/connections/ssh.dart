@@ -41,21 +41,21 @@ class SSH {
     }
   }
 
-  Future<SSHSession?> execute() async {
-    try {
-      if (_client == null) {
-        print('SSH client is not initialized.');
-        return null;
-      }
-      final execResult =
-          await _client!.execute('echo "search=Spain" > /tmp/query.txt');
-      print('Execution Okay');
-      return execResult;
-    } catch (e) {
-      print('An error occurred while executing the command: $e');
-      return null;
-    }
-  }
+  // Future<SSHSession?> execute() async {
+  //   try {
+  //     if (_client == null) {
+  //       print('SSH client is not initialized.');
+  //       return null;
+  //     }
+  //     final execResult =
+  //         await _client!.execute('echo "search=Spain" > /tmp/query.txt');
+  //     print('Execution Okay');
+  //     return execResult;
+  //   } catch (e) {
+  //     print('An error occurred while executing the command: $e');
+  //     return null;
+  //   }
+  // }
 
   Future<SSHSession?> sendLogos() async {
     try {
