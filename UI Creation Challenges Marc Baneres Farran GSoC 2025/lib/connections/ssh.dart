@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:xml/xml.dart' as xml;
 
 class SSH {
   late String _host;
@@ -82,9 +83,22 @@ class SSH {
     }
   }
 
-  Future<void> flyTo(double longitude, double latitude, double altitude,
-      double heading, double tilt, double range) async {
+  Future<void> flyTo(String kmlContent) async {
     try {
+      final document = xml.XmlDocument.parse(kmlContent);
+      final lookAt = document.findAllElements('LookAt').first;
+
+      final longitude =
+          double.parse(lookAt.findElements('longitude').first.innerText);
+      final latitude =
+          double.parse(lookAt.findElements('latitude').first.innerText);
+      final altitude =
+          double.parse(lookAt.findElements('altitude').first.innerText);
+      final heading =
+          double.parse(lookAt.findElements('heading').first.innerText);
+      final tilt = double.parse(lookAt.findElements('tilt').first.innerText);
+      final range = double.parse(lookAt.findElements('range').first.innerText);
+
       final command =
           'echo "flytoview=<gx:duration>3</gx:duration><gx:flyToMode>smooth</gx:flyToMode>'
           '<LookAt>'

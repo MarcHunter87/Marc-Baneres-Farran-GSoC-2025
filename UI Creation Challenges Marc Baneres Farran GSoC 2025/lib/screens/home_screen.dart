@@ -66,15 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           await ssh
                               .loadKML('Night light in India during Diwali');
 
-                          // Añadir flyTo con los parámetros del KML
-                          await ssh.flyTo(
-                              87.71119568547307, // longitude
-                              20.9773758875981, // latitude
-                              0, // altitude
-                              -3.872240540561028, // heading
-                              5.756690886091893, // tilt
-                              7270018.156032546 // range
-                              );
+                          await ssh.flyTo(content);
                         } else {
                           print('The file is null');
                         }
