@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animated_icons/icons8.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/screens/home_screen.dart';
 import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/screens/settings_screen.dart';
 
@@ -45,7 +47,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = const [
@@ -53,24 +55,70 @@ class _MyHomePageState extends State<MyHomePage> {
     SettingsPage(),
   ];
 
+  late AnimationController _homeController;
+  late AnimationController _settingsController;
+
+  @override
+  void initState() {
+    super.initState();
+    _homeController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+    _settingsController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+  }
+
+  @override
+  void dispose() {
+    _homeController.dispose();
+    _settingsController.dispose();
+    super.dispose();
+  }
+
+  void _onDestinationSelected(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 0) {
+      _homeController.reset();
+      _homeController.forward();
+    } else if (index == 1) {
+      _settingsController.reset();
+      _settingsController.forward();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
-        onDestinationSelected: (int index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        destinations: const [
+        onDestinationSelected: _onDestinationSelected,
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.home),
+            icon: ColorFiltered(
+              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              child: Lottie.asset(
+                Icons8.home,
+                controller: _homeController,
+                height: 30,
+              ),
+            ),
             label: 'Home',
           ),
           NavigationDestination(
-            icon: Icon(Icons.settings),
+            icon: ColorFiltered(
+              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              child: Lottie.asset(
+                Icons8.settings,
+                controller: _settingsController,
+                height: 30,
+              ),
+            ),
             label: 'Settings',
           ),
         ],
