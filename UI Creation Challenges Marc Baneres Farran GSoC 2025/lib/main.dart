@@ -101,7 +101,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         destinations: [
           NavigationDestination(
             icon: ColorFiltered(
-              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              colorFilter:
+                  const ColorFilter.mode(Colors.white, BlendMode.srcIn),
               child: Lottie.asset(
                 Icons8.home,
                 controller: _homeController,
@@ -112,7 +113,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
           NavigationDestination(
             icon: ColorFiltered(
-              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              colorFilter:
+                  const ColorFilter.mode(Colors.white, BlendMode.srcIn),
               child: Lottie.asset(
                 Icons8.settings,
                 controller: _settingsController,
