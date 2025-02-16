@@ -56,23 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
                       onPress: () async {
-                        await ssh.sendLogos();
-                      },
-                      cardChild: const Center(
-                        child: Text(
-                          'PUT LG LOGOS',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ReusableCard(
-                      colour: const Color(0xFF424242),
-                      onPress: () async {
                         String content = await rootBundle
                             .loadString('lib/files/kml/Lleida.kml');
                         File? localFile = await ssh.makeFile('Lleida', content);
@@ -117,58 +100,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
-                      onPress: () async {
-                        String content = await rootBundle
-                            .loadString('lib/files/kml/Tokyo.kml');
-                        File? localFile = await ssh.makeFile('Tokyo', content);
-                        if (localFile != null) {
-                          await ssh.uploadKMLFile(localFile, 'Tokyo');
-                          await ssh.loadKML('Tokyo');
-
-                          final document = xml.XmlDocument.parse(content);
-                          final lookAt =
-                              document.findAllElements('LookAt').first;
-
-                          final longitude = double.parse(
-                              lookAt.findElements('longitude').first.innerText);
-                          final latitude = double.parse(
-                              lookAt.findElements('latitude').first.innerText);
-                          final altitude = double.parse(
-                              lookAt.findElements('altitude').first.innerText);
-                          final heading = double.parse(
-                              lookAt.findElements('heading').first.innerText);
-                          final tilt = double.parse(
-                              lookAt.findElements('tilt').first.innerText);
-                          final range = double.parse(
-                              lookAt.findElements('range').first.innerText);
-
-                          await ssh.flyTo(longitude, latitude, altitude,
-                              heading, tilt, range);
-                        } else {
-                          print('The file is null');
-                        }
-                      },
+                      onPress: () async {},
                       cardChild: const Center(
                         child: Text(
-                          'SEND SECOND KML',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ReusableCard(
-                      colour: const Color(0xFF424242),
-                      onPress: () async {
-                        await ssh.clearLogos();
-                      },
-                      cardChild: const Center(
-                        child: Text(
-                          'CLEAR LG LOGOS',
+                          'SEND 3D KML',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/screens/home_screen.dart';
-import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/screens/voice_screen.dart';
-import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/screens/maps_screen.dart';
 import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/screens/settings_screen.dart';
 
 void main() {
@@ -26,10 +24,10 @@ class MyApp extends StatelessWidget {
         navigationBarTheme: const NavigationBarThemeData(
           backgroundColor: Color(0xFF111111),
           indicatorColor: Colors.white24,
-          labelTextStyle: MaterialStatePropertyAll(
+          labelTextStyle: WidgetStatePropertyAll(
             TextStyle(color: Colors.white),
           ),
-          iconTheme: MaterialStatePropertyAll(
+          iconTheme: WidgetStatePropertyAll(
             IconThemeData(color: Colors.white),
           ),
         ),
@@ -52,8 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Widget> _screens = const [
     HomeScreen(),
-    VoiceScreen(),
-    MapsScreen(),
     SettingsPage(),
   ];
 
@@ -72,14 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
           NavigationDestination(
             icon: Icon(Icons.home),
             label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.mic),
-            label: 'Voice',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.map),
-            label: 'Maps',
           ),
           NavigationDestination(
             icon: Icon(Icons.settings),
