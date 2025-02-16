@@ -41,63 +41,6 @@ class SSH {
     }
   }
 
-  // Future<SSHSession?> execute() async {
-  //   try {
-  //     if (_client == null) {
-  //       print('SSH client is not initialized.');
-  //       return null;
-  //     }
-  //     final execResult =
-  //         await _client!.execute('echo "search=Spain" > /tmp/query.txt');
-  //     print('Execution Okay');
-  //     return execResult;
-  //   } catch (e) {
-  //     print('An error occurred while executing the command: $e');
-  //     return null;
-  //   }
-  // }
-
-  Future<SSHSession?> sendLogos() async {
-    try {
-      if (_client == null) {
-        print('SSH client is not initialized.');
-        return null;
-      }
-
-      int leftMostRig = (int.parse(_numberOfRigs) / 2).floor() + 2;
-      double factor = 300 * (6190 / 6054);
-
-      String KML = '''<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2">
-  <Document>
-    <Folder>
-      <name>Logos</name>
-      <ScreenOverlay>
-        <name>Logo</name>
-        <Icon>
-        <href>https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXmdNgBTXup6bdWew5RzgCmC9pPb7rK487CpiscWB2S8OlhwFHmeeACHIIjx4B5-Iv-t95mNUx0JhB_oATG3-Tq1gs8Uj0-Xb9Njye6rHtKKsnJQJlzZqJxMDnj_2TXX3eA5x6VSgc8aw/s320-rw/LOGO+LIQUID+GALAXY-sq1000-+OKnoline.png</href>
-        </Icon>
-        <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
-        <screenXY x="0.02" y="0.95" xunits="fraction" yunits="fraction"/>
-        <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
-        <size x="300" y="$factor" xunits="pixels" yunits="pixels"/>
-      </ScreenOverlay>
-    </Folder>
-  </Document>
-</kml>''';
-
-      final execResult = await _client!
-          .execute('echo \'$KML\' > /var/www/html/kml/slave_$leftMostRig.kml');
-
-      print(
-          "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftMostRig.kml");
-      return execResult;
-    } catch (e) {
-      print('An error occurred while sending the logos: $e');
-      return null;
-    }
-  }
-
   makeFile(String filename, String content) async {
     try {
       var localPath = await getApplicationDocumentsDirectory();
@@ -155,33 +98,7 @@ class SSH {
 
       await _client!.execute(command);
     } catch (e) {
-      print('An error occurred while executing the command: $e');
-    }
-  }
-
-  Future<SSHSession?> clearLogos() async {
-    try {
-      if (_client == null) {
-        print('SSH client is not initialized.');
-        return null;
-      }
-      int leftScreen = (int.parse(_numberOfRigs) / 2).floor() + 2;
-      String KML = '''
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
-  <Document>
-  </Document>
-</kml>''';
-
-      final execResult = await _client!
-          .execute("echo '$KML' > /var/www/html/kml/slave_$leftScreen.kml");
-
-      print(
-          "chmod 777 /var/www/html/kml/kmls.txt; echo '$KML' > /var/www/html/kml/slave_$leftScreen.kml");
-      return execResult;
-    } catch (e) {
-      print('An error occurred while clearing the logos: $e');
-      return null;
+      print('Error en flyTo: $e');
     }
   }
 

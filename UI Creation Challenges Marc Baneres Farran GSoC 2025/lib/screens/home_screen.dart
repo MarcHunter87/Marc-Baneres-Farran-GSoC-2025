@@ -56,32 +56,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ReusableCard(
                       colour: const Color(0xFF424242),
                       onPress: () async {
-                        String content = await rootBundle
-                            .loadString('lib/files/kml/Lleida.kml');
-                        File? localFile = await ssh.makeFile('Lleida', content);
+                        String content = await rootBundle.loadString(
+                            'lib/files/kml/Night light in India during Diwali.kml');
+                        File? localFile = await ssh.makeFile(
+                            'Night light in India during Diwali', content);
                         if (localFile != null) {
-                          await ssh.uploadKMLFile(localFile, 'Lleida');
-                          await ssh.loadKML('Lleida');
+                          await ssh.uploadKMLFile(
+                              localFile, 'Night light in India during Diwali');
+                          await ssh
+                              .loadKML('Night light in India during Diwali');
 
-                          final document = xml.XmlDocument.parse(content);
-                          final lookAt =
-                              document.findAllElements('LookAt').first;
-
-                          final longitude = double.parse(
-                              lookAt.findElements('longitude').first.innerText);
-                          final latitude = double.parse(
-                              lookAt.findElements('latitude').first.innerText);
-                          final altitude = double.parse(
-                              lookAt.findElements('altitude').first.innerText);
-                          final heading = double.parse(
-                              lookAt.findElements('heading').first.innerText);
-                          final tilt = double.parse(
-                              lookAt.findElements('tilt').first.innerText);
-                          final range = double.parse(
-                              lookAt.findElements('range').first.innerText);
-
-                          await ssh.flyTo(longitude, latitude, altitude,
-                              heading, tilt, range);
+                          // Añadir flyTo con los parámetros del KML
+                          await ssh.flyTo(
+                              87.71119568547307, // longitude
+                              20.9773758875981, // latitude
+                              0, // altitude
+                              -3.872240540561028, // heading
+                              5.756690886091893, // tilt
+                              7270018.156032546 // range
+                              );
                         } else {
                           print('The file is null');
                         }
