@@ -17,11 +17,21 @@ class MyApp extends StatelessWidget {
       title: 'LG Web App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: const ColorScheme.dark(
-          surface: Color(0xFF101418),
-          onSurface: Color(0xFFE0E2E8),
-          primary: Colors.blue,
-          secondary: Colors.blueAccent,
+        scaffoldBackgroundColor: const Color(0xFFE0E0E0),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF111111),
+          foregroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+        navigationBarTheme: const NavigationBarThemeData(
+          backgroundColor: Color(0xFF111111),
+          indicatorColor: Colors.white24,
+          labelTextStyle: MaterialStatePropertyAll(
+            TextStyle(color: Colors.white),
+          ),
+          iconTheme: MaterialStatePropertyAll(
+            IconThemeData(color: Colors.white),
+          ),
         ),
         useMaterial3: true,
       ),
@@ -44,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
     HomeScreen(),
     VoiceScreen(),
     MapsScreen(),
-    SettingsScreen(),
+    SettingsPage(),
   ];
 
   @override
