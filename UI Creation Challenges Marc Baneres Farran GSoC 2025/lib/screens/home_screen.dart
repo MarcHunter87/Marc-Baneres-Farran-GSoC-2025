@@ -156,16 +156,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class AnimatedMilestoneCircle extends StatefulWidget {
   final int milestoneNumber;
+  final bool animate;
   final bool filled;
 
   const AnimatedMilestoneCircle({
     Key? key,
     required this.milestoneNumber,
+    required this.animate,
     required this.filled,
   }) : super(key: key);
 
   @override
-  _AnimatedMilestoneCircleState createState() => _AnimatedMilestoneCircleState();
+  _AnimatedMilestoneCircleState createState() =>
+      _AnimatedMilestoneCircleState();
 }
 
 class _AnimatedMilestoneCircleState extends State<AnimatedMilestoneCircle>
@@ -173,7 +176,6 @@ class _AnimatedMilestoneCircleState extends State<AnimatedMilestoneCircle>
   late AnimationController _controller;
   late Animation<double> _fillAnimation;
   static const double diameter = 30;
-  bool _prevFilled = false;
 
   @override
   void initState() {
@@ -183,8 +185,9 @@ class _AnimatedMilestoneCircleState extends State<AnimatedMilestoneCircle>
       vsync: this,
     );
     _fillAnimation = Tween<double>(begin: 0, end: 1).animate(_controller);
-    _prevFilled = widget.filled;
-    if (widget.filled) {
+    if (widget.animate) {
+      _controller.forward();
+    } else if (widget.filled) {
       _controller.value = 1.0;
     }
   }
@@ -192,12 +195,11 @@ class _AnimatedMilestoneCircleState extends State<AnimatedMilestoneCircle>
   @override
   void didUpdateWidget(covariant AnimatedMilestoneCircle oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.filled != oldWidget.filled) {
-      if (widget.filled) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
+    if (widget.animate && !oldWidget.animate) {
+      _controller.forward(from: 0);
+    }
+    if (widget.filled && !widget.animate) {
+      _controller.value = 1.0;
     }
   }
 
@@ -265,8 +267,10 @@ class MilestoneProgressBar extends StatelessWidget {
     List<Widget> children = [];
     for (int i = 0; i < totalMilestones; i++) {
       bool filled = displayProgress >= i + 1;
+      bool animate = (!filled) && (targetProgress == i + 1);
       children.add(AnimatedMilestoneCircle(
         milestoneNumber: i + 1,
+        animate: animate,
         filled: filled,
       ));
       if (i < totalMilestones - 1) {
