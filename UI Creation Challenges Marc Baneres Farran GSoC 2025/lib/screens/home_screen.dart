@@ -146,6 +146,12 @@ class _HomeScreenState extends State<HomeScreen> {
               targetProgress: targetProgress,
               displayProgress: displayProgress,
               totalMilestones: 4,
+              milestoneTexts: const [
+                'Connect',
+                'Send KML',
+                'Send 3D KML',
+                'Clear KML'
+              ],
             ),
           ],
         ),
@@ -206,37 +212,48 @@ class _AnimatedMilestoneCircleState extends State<AnimatedMilestoneCircle>
     return Container(
       width: diameter,
       height: diameter,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Colors.grey,
+        border: Border.all(color: Colors.black, width: 2),
       ),
-      child: ClipOval(
-        child: AnimatedBuilder(
-          animation: _fillAnimation,
-          builder: (context, child) {
-            return Stack(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
+      child: AnimatedBuilder(
+        animation: _fillAnimation,
+        builder: (context, child) {
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: diameter,
+                height: diameter,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey,
+                ),
+              ),
+              ClipOval(
+                child: Align(
+                  alignment: Alignment.center,
                   child: Container(
                     width: diameter * _fillAnimation.value,
-                    height: diameter,
-                    color: Colors.black,
-                  ),
-                ),
-                Center(
-                  child: Text(
-                    '${widget.milestoneNumber}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                    height: diameter * _fillAnimation.value,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black,
                     ),
                   ),
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+              Text(
+                '${widget.milestoneNumber}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -252,40 +269,56 @@ class MilestoneProgressBar extends StatelessWidget {
   final int targetProgress;
   final int displayProgress;
   final int totalMilestones;
+  final List<String> milestoneTexts;
 
   const MilestoneProgressBar({
     Key? key,
     required this.targetProgress,
     required this.displayProgress,
     this.totalMilestones = 4,
+    required this.milestoneTexts,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _buildProgressRow(),
+        _buildTextsRow(),
+      ],
+    );
+  }
+
+  Widget _buildProgressRow() {
     List<Widget> children = [];
     for (int i = 0; i < totalMilestones; i++) {
-      bool filled = displayProgress >= i + 1;
-      children.add(AnimatedMilestoneCircle(
-        milestoneNumber: i + 1,
-        filled: filled,
-      ));
+      children.add(
+        Expanded(
+          flex: 2,
+          child: AnimatedMilestoneCircle(
+            milestoneNumber: i + 1,
+            filled: displayProgress >= i + 1,
+          ),
+        ),
+      );
+
       if (i < totalMilestones - 1) {
         children.add(
           Expanded(
+            flex: 3,
             child: LayoutBuilder(
               builder: (context, constraints) {
-                double fullWidth = constraints.maxWidth;
                 bool segmentCompleted = targetProgress > i + 1;
                 return Stack(
                   children: [
                     Container(
-                      width: fullWidth,
+                      width: constraints.maxWidth,
                       height: 4,
                       color: Colors.grey,
                     ),
                     AnimatedContainer(
                       duration: const Duration(milliseconds: 500),
-                      width: segmentCompleted ? fullWidth : 0,
+                      width: segmentCompleted ? constraints.maxWidth : 0,
                       height: 4,
                       color: Colors.black,
                     ),
@@ -297,8 +330,47 @@ class MilestoneProgressBar extends StatelessWidget {
         );
       }
     }
+    return Row(children: children);
+  }
+
+  Widget _buildTextsRow() {
+    List<Widget> children = [];
+    for (int i = 0; i < totalMilestones; i++) {
+      children.add(
+        Expanded(
+          flex: 4,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Transform.translate(
+                offset: const Offset(1, 0),
+                child: Text(
+                  milestoneTexts[i],
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      if (i < totalMilestones - 1) {
+        children.add(
+          Expanded(
+            flex: 4,
+            child: Container(),
+          ),
+        );
+      }
+    }
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: children,
     );
   }
+
 }
