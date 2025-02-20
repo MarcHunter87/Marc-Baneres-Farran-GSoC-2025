@@ -160,111 +160,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class AnimatedMilestoneCircle extends StatefulWidget {
-  final int milestoneNumber;
-  final bool filled;
-
-  const AnimatedMilestoneCircle({
-    Key? key,
-    required this.milestoneNumber,
-    required this.filled,
-  }) : super(key: key);
-
-  @override
-  _AnimatedMilestoneCircleState createState() => _AnimatedMilestoneCircleState();
-}
-
-class _AnimatedMilestoneCircleState extends State<AnimatedMilestoneCircle>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _fillAnimation;
-  static const double diameter = 30;
-  bool _prevFilled = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-    _fillAnimation = Tween<double>(begin: 0, end: 1).animate(_controller);
-    _prevFilled = widget.filled;
-    if (widget.filled) {
-      _controller.value = 1.0;
-    }
-  }
-
-  @override
-  void didUpdateWidget(covariant AnimatedMilestoneCircle oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.filled != oldWidget.filled) {
-      if (widget.filled) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: diameter,
-      height: diameter,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.grey,
-        border: Border.all(color: Colors.black, width: 2),
-      ),
-      child: AnimatedBuilder(
-        animation: _fillAnimation,
-        builder: (context, child) {
-          return Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                width: diameter,
-                height: diameter,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey,
-                ),
-              ),
-              ClipOval(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: diameter * _fillAnimation.value,
-                    height: diameter * _fillAnimation.value,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-              Text(
-                '${widget.milestoneNumber}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-}
-
 class MilestoneProgressBar extends StatelessWidget {
   final int targetProgress;
   final int displayProgress;
@@ -284,6 +179,7 @@ class MilestoneProgressBar extends StatelessWidget {
     return Column(
       children: [
         _buildProgressRow(),
+        const SizedBox(height: 8),
         _buildTextsRow(),
       ],
     );
@@ -338,31 +234,24 @@ class MilestoneProgressBar extends StatelessWidget {
     for (int i = 0; i < totalMilestones; i++) {
       children.add(
         Expanded(
-          flex: 4,
+          flex: 2,
           child: Align(
             alignment: Alignment.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Transform.translate(
-                offset: const Offset(1, 0),
-                child: Text(
-                  milestoneTexts[i],
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
+            child: Text(
+              milestoneTexts[i],
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 14,
               ),
             ),
           ),
         ),
       );
-
       if (i < totalMilestones - 1) {
         children.add(
-          Expanded(
-            flex: 4,
-            child: Container(),
+          const Expanded(
+            flex: 3,
+            child: SizedBox(),
           ),
         );
       }
@@ -372,5 +261,37 @@ class MilestoneProgressBar extends StatelessWidget {
       children: children,
     );
   }
+}
 
+class AnimatedMilestoneCircle extends StatelessWidget {
+  final int milestoneNumber;
+  final bool filled;
+
+  const AnimatedMilestoneCircle({
+    Key? key,
+    required this.milestoneNumber,
+    required this.filled,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 30,
+      height: 30,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: filled ? Colors.black : Colors.grey,
+        border: Border.all(color: Colors.black, width: 2),
+      ),
+      child: Center(
+        child: Text(
+          '$milestoneNumber',
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
 }
