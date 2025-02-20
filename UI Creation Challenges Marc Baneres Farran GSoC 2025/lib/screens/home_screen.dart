@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/components/connection_flag.dart';
 import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/connections/ssh.dart';
+import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/components/reusable_card.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import '../components/reusable_card.dart';
 
 bool connectionStatus = false;
 
