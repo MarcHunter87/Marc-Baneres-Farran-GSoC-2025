@@ -26,22 +26,23 @@ class _HomeScreenState extends State<HomeScreen> {
     SSH.connectionStatus.listen((status) {
       setState(() {
         connectionStatus = status;
+        if (status) {
+          targetProgress = 1;
+          Future.delayed(const Duration(milliseconds: 500), () {
+            setState(() {
+              displayProgress = 1;
+            });
+          });
+        } else {
+          targetProgress = 0;
+          displayProgress = 0;
+        }
       });
     });
   }
 
   Future<void> _connectToLG() async {
-    bool? result = await ssh.connectToLG();
-    if (result != null && result) {
-      setState(() {
-        targetProgress = 1;
-      });
-      Future.delayed(const Duration(milliseconds: 500), () {
-        setState(() {
-          displayProgress = 1;
-        });
-      });
-    }
+    await ssh.connectToLG();
   }
 
   Future<void> _advanceProgress(int nextProgress) async {
