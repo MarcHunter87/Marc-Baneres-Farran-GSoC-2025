@@ -14,6 +14,12 @@ class SSH {
   late String _numberOfRigs;
   SSHClient? _client;
 
+  static final StreamController<bool> _connectionStatusController =
+      StreamController<bool>.broadcast();
+
+  static Stream<bool> get connectionStatus =>
+      _connectionStatusController.stream;
+
   Future<void> initConnectionDetails() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     _host = prefs.getString('ipAddress') ?? 'default_host';
@@ -35,9 +41,11 @@ class SSH {
         onPasswordRequest: () => _passwordOrKey,
       );
       print('IP: $_host, port: $_port');
+      _connectionStatusController.add(true);
       return true;
     } on SocketException catch (e) {
       print('Failed to connect: $e');
+      _connectionStatusController.add(false);
       return false;
     }
   }
@@ -133,6 +141,7 @@ class SSH {
       if (_client != null) {
         _client!.close();
         _client = null;
+        _connectionStatusController.add(false);
       }
     } catch (e) {
       print('Error al desconectar: $e');

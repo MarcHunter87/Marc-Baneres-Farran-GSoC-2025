@@ -6,8 +6,6 @@ import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/components/
 import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/components/milestone_progress_bar.dart';
 import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/connections/ssh.dart';
 
-bool connectionStatus = false;
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -19,19 +17,24 @@ class _HomeScreenState extends State<HomeScreen> {
   late SSH ssh;
   int targetProgress = 0;
   int displayProgress = 0;
+  bool connectionStatus = false;
 
   @override
   void initState() {
     super.initState();
     ssh = SSH();
     _connectToLG();
+    SSH.connectionStatus.listen((status) {
+      setState(() {
+        connectionStatus = status;
+      });
+    });
   }
 
   Future<void> _connectToLG() async {
     bool? result = await ssh.connectToLG();
     if (result != null && result) {
       setState(() {
-        connectionStatus = true;
         targetProgress = 1;
       });
       Future.delayed(const Duration(milliseconds: 500), () {

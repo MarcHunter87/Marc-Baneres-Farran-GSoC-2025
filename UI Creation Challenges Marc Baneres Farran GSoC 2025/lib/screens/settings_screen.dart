@@ -15,19 +15,17 @@ class _SettingsPageState extends State<SettingsPage> {
   late SSH ssh;
   bool _showPassword = false;
 
-  Future<void> _connectToLG() async {
-    bool? result = await ssh.connectToLG();
-    setState(() {
-      connectionStatus = result!;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
     ssh = SSH();
     _loadSettings();
     _connectToLG();
+    SSH.connectionStatus.listen((status) {
+      setState(() {
+        connectionStatus = status;
+      });
+    });
   }
 
   final TextEditingController _ipController = TextEditingController();
@@ -76,6 +74,13 @@ class _SettingsPageState extends State<SettingsPage> {
     if (_rigsController.text.isNotEmpty) {
       await prefs.setString('numberOfRigs', _rigsController.text);
     }
+  }
+
+  Future<void> _connectToLG() async {
+    bool? result = await ssh.connectToLG();
+    setState(() {
+      connectionStatus = result ?? false;
+    });
   }
 
   @override
