@@ -76,9 +76,76 @@ class _HomeScreenState extends State<HomeScreen> {
                 status: connectionStatus,
               ),
             ),
-            _buildKMLCard(),
-            _build3DKMLCard(),
-            _buildClearKMLCard(),
+            SizedBox(
+              height: 100,
+              child: ReusableCard(
+                colour: const Color(0xFF424242),
+                onPress: () async {
+                  String content = await rootBundle.loadString(
+                      'lib/files/kml/Night light in India during Diwali.kml');
+                  File? localFile = await ssh.makeFile(
+                      'Night light in India during Diwali', content);
+                  if (localFile != null) {
+                    await ssh.uploadKMLFile(
+                        localFile, 'Night light in India during Diwali');
+                    await ssh.loadKML('Night light in India during Diwali');
+                    await ssh.flyTo(content);
+                    _advanceProgress(2);
+                  } else {
+                    print('The file is null');
+                  }
+                },
+                cardChild: const Center(
+                  child: Text(
+                    'SEND KML',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 100,
+              child: ReusableCard(
+                colour: const Color(0xFF424242),
+                onPress: () async {
+                  _advanceProgress(3);
+                },
+                cardChild: const Center(
+                  child: Text(
+                    'SEND 3D KML',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 100,
+              child: ReusableCard(
+                colour: const Color(0xFF424242),
+                onPress: () async {
+                  await ssh.clearKML();
+                  _advanceProgress(4);
+                },
+                cardChild: const Center(
+                  child: Text(
+                    'CLEAR KMLS',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(height: 16),
             MilestoneProgressBar(
               targetProgress: targetProgress,
@@ -92,85 +159,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildKMLCard() {
-    return SizedBox(
-      height: 100,
-      child: ReusableCard(
-        colour: const Color(0xFF424242),
-        onPress: () async {
-          String content = await rootBundle.loadString(
-              'lib/files/kml/Night light in India during Diwali.kml');
-          File? localFile =
-              await ssh.makeFile('Night light in India during Diwali', content);
-          if (localFile != null) {
-            await ssh.uploadKMLFile(
-                localFile, 'Night light in India during Diwali');
-            await ssh.loadKML('Night light in India during Diwali');
-            await ssh.flyTo(content);
-            _advanceProgress(2);
-          } else {
-            print('The file is null');
-          }
-        },
-        cardChild: const Center(
-          child: Text(
-            'SEND KML',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _build3DKMLCard() {
-    return SizedBox(
-      height: 100,
-      child: ReusableCard(
-        colour: const Color(0xFF424242),
-        onPress: () async {
-          _advanceProgress(3);
-        },
-        cardChild: const Center(
-          child: Text(
-            'SEND 3D KML',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildClearKMLCard() {
-    return SizedBox(
-      height: 100,
-      child: ReusableCard(
-        colour: const Color(0xFF424242),
-        onPress: () async {
-          await ssh.clearKML();
-          _advanceProgress(4);
-        },
-        cardChild: const Center(
-          child: Text(
-            'CLEAR KMLS',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
         ),
       ),
     );
