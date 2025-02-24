@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/components/connection_flag.dart';
-import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/connections/ssh.dart';
 import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/components/reusable_card.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/components/milestone_progress_bar.dart';
+import 'package:ui_creation_challenges_marc_baneres_farran_gsoc_2025/connections/ssh.dart';
 
 bool connectionStatus = false;
 
@@ -72,75 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 status: connectionStatus,
               ),
             ),
-            SizedBox(
-              height: 100,
-              child: ReusableCard(
-                colour: const Color(0xFF424242),
-                onPress: () async {
-                  String content = await rootBundle.loadString(
-                      'lib/files/kml/Night light in India during Diwali.kml');
-                  File? localFile = await ssh.makeFile(
-                      'Night light in India during Diwali', content);
-                  if (localFile != null) {
-                    await ssh.uploadKMLFile(
-                        localFile, 'Night light in India during Diwali');
-                    await ssh.loadKML('Night light in India during Diwali');
-                    await ssh.flyTo(content);
-                    _advanceProgress(2);
-                  } else {
-                    print('The file is null');
-                  }
-                },
-                cardChild: const Center(
-                  child: Text(
-                    'SEND KML',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 100,
-              child: ReusableCard(
-                colour: const Color(0xFF424242),
-                onPress: () async {
-                  _advanceProgress(3);
-                },
-                cardChild: const Center(
-                  child: Text(
-                    'SEND 3D KML',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 100,
-              child: ReusableCard(
-                colour: const Color(0xFF424242),
-                onPress: () async {
-                  await ssh.clearKML();
-                  _advanceProgress(4);
-                },
-                cardChild: const Center(
-                  child: Text(
-                    'CLEAR KMLS',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            _buildKMLCard(),
+            _build3DKMLCard(),
+            _buildClearKMLCard(),
             const SizedBox(height: 16),
             MilestoneProgressBar(
               targetProgress: targetProgress,
@@ -158,182 +93,82 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
 
-class MilestoneProgressBar extends StatelessWidget {
-  final int targetProgress;
-  final int displayProgress;
-  final int totalMilestones;
-  final List<String> milestoneTexts;
-
-  const MilestoneProgressBar({
-    Key? key,
-    required this.targetProgress,
-    required this.displayProgress,
-    this.totalMilestones = 4,
-    required this.milestoneTexts,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildProgressRow(),
-        const SizedBox(height: 8),
-        _buildTextsRow(),
-      ],
-    );
-  }
-
-  Widget _buildProgressRow() {
-    List<Widget> children = [];
-
-    children.add(
-      const Expanded(
-        flex: 0,
-        child: SizedBox(),
-      ),
-    );
-
-    for (int i = 0; i < totalMilestones; i++) {
-      children.add(
-        Expanded(
-          flex: 3,
-          child: AnimatedMilestoneCircle(
-            milestoneNumber: i + 1,
-            filled: displayProgress >= i + 1,
-          ),
-        ),
-      );
-
-      if (i < totalMilestones - 1) {
-        children.add(
-          Expanded(
-            flex: 2,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                bool segmentCompleted = targetProgress > i + 1;
-                return Stack(
-                  children: [
-                    Container(
-                      width: constraints.maxWidth,
-                      height: 4,
-                      color: Colors.grey,
-                    ),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 500),
-                      width: segmentCompleted ? constraints.maxWidth : 0,
-                      height: 4,
-                      color: Colors.black,
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        );
-      }
-    }
-
-    children.add(
-      const Expanded(
-        flex: 0,
-        child: SizedBox(),
-      ),
-    );
-
-    return Row(children: children);
-  }
-
-  Widget _buildTextsRow() {
-    List<Widget> children = [];
-
-    children.add(
-      const Expanded(
-        flex: 0,
-        child: SizedBox(),
-      ),
-    );
-
-    for (int i = 0; i < totalMilestones; i++) {
-      children.add(
-        Expanded(
-          flex: 3,
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Text(
-              milestoneTexts[i],
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 13,
-              ),
+  Widget _buildKMLCard() {
+    return SizedBox(
+      height: 100,
+      child: ReusableCard(
+        colour: const Color(0xFF424242),
+        onPress: () async {
+          String content = await rootBundle.loadString(
+              'lib/files/kml/Night light in India during Diwali.kml');
+          File? localFile =
+              await ssh.makeFile('Night light in India during Diwali', content);
+          if (localFile != null) {
+            await ssh.uploadKMLFile(
+                localFile, 'Night light in India during Diwali');
+            await ssh.loadKML('Night light in India during Diwali');
+            await ssh.flyTo(content);
+            _advanceProgress(2);
+          } else {
+            print('The file is null');
+          }
+        },
+        cardChild: const Center(
+          child: Text(
+            'SEND KML',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),
-      );
-
-      if (i < totalMilestones - 1) {
-        children.add(
-          const Expanded(
-            flex: 2,
-            child: SizedBox(),
-          ),
-        );
-      }
-    }
-
-    children.add(
-      const Expanded(
-        flex: 0,
-        child: SizedBox(),
       ),
-    );
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: children,
     );
   }
-}
 
-class AnimatedMilestoneCircle extends StatelessWidget {
-  final int milestoneNumber;
-  final bool filled;
-
-  const AnimatedMilestoneCircle({
-    Key? key,
-    required this.milestoneNumber,
-    required this.filled,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 30,
-      height: 30,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.black, width: 2),
+  Widget _build3DKMLCard() {
+    return SizedBox(
+      height: 100,
+      child: ReusableCard(
+        colour: const Color(0xFF424242),
+        onPress: () async {
+          _advanceProgress(3);
+        },
+        cardChild: const Center(
+          child: Text(
+            'SEND 3D KML',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
       ),
-      child: Stack(
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: filled ? Colors.black : Colors.grey,
+    );
+  }
+
+  Widget _buildClearKMLCard() {
+    return SizedBox(
+      height: 100,
+      child: ReusableCard(
+        colour: const Color(0xFF424242),
+        onPress: () async {
+          await ssh.clearKML();
+          _advanceProgress(4);
+        },
+        cardChild: const Center(
+          child: Text(
+            'CLEAR KMLS',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
             ),
           ),
-          Center(
-            child: Text(
-              '$milestoneNumber',
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
