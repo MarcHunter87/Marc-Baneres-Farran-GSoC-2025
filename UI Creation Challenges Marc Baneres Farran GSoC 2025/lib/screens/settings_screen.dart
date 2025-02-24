@@ -11,16 +11,14 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final SSH ssh = SSH(); // Ahora usa la instancia singleton
   bool connectionStatus = false;
-  late SSH ssh;
   bool _showPassword = false;
 
   @override
   void initState() {
     super.initState();
-    ssh = SSH();
     _loadSettings();
-    _connectToLG();
     SSH.connectionStatus.listen((status) {
       setState(() {
         connectionStatus = status;
@@ -41,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
     _passwordController.dispose();
     _sshPortController.dispose();
     _rigsController.dispose();
-    ssh.disconnect();
+    // No necesitamos desconectar aquí
     super.dispose();
   }
 
@@ -74,13 +72,6 @@ class _SettingsPageState extends State<SettingsPage> {
     if (_rigsController.text.isNotEmpty) {
       await prefs.setString('numberOfRigs', _rigsController.text);
     }
-  }
-
-  Future<void> _connectToLG() async {
-    bool? result = await ssh.connectToLG();
-    setState(() {
-      connectionStatus = result ?? false;
-    });
   }
 
   @override

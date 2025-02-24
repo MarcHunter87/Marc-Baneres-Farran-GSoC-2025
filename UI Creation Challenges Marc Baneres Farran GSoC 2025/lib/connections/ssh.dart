@@ -7,6 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xml/xml.dart' as xml;
 
 class SSH {
+  static final SSH _instance = SSH._internal();
+  factory SSH() => _instance;
+  SSH._internal();
+
   late String _host;
   late String _port;
   late String _username;
@@ -30,6 +34,8 @@ class SSH {
   }
 
   Future<bool?> connectToLG() async {
+    await disconnect();
+
     await initConnectionDetails();
 
     try {
@@ -83,11 +89,10 @@ class SSH {
 
   loadKML(String kmlName) async {
     try {
-      final v = await _client!.execute(
+      await _client!.execute(
           "echo 'http://lg1:81/$kmlName.kml' > /var/www/html/kmls.txt");
     } catch (e) {
       print('An error occurred while loading the KML: $e');
-      await loadKML(kmlName);
     }
   }
 
@@ -126,13 +131,11 @@ class SSH {
 
   clearKML() async {
     try {
-      final execResult =
-          await _client!.execute("echo '' > /var/www/html/kmls.txt");
+      await _client!.execute("echo '' > /var/www/html/kmls.txt");
       print(
           "chmod 777 /var/www/html/kml/kmls.txt; echo '' > /var/www/html/kmls.txt");
     } catch (e) {
       print('An error occurred while clearing the KML: $e');
-      await clearKML();
     }
   }
 

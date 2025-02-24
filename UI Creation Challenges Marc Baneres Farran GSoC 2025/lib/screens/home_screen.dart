@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late SSH ssh;
+  final SSH ssh = SSH();
   int targetProgress = 0;
   int displayProgress = 0;
   bool connectionStatus = false;
@@ -22,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    ssh = SSH();
     _connectToLG();
     SSH.connectionStatus.listen((status) {
       setState(() {
@@ -166,7 +165,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    ssh.disconnect();
     super.dispose();
   }
 }
