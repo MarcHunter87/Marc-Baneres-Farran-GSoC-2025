@@ -43,6 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
     _passwordController.dispose();
     _sshPortController.dispose();
     _rigsController.dispose();
+    ssh.disconnect();
     super.dispose();
   }
 
@@ -175,14 +176,11 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               onPressed: () async {
                 await _saveSettings();
-                SSH ssh = SSH();
+                await ssh.disconnect();
                 bool? result = await ssh.connectToLG();
-                if (result == true) {
-                  setState(() {
-                    connectionStatus = true;
-                  });
-                  print('Connected to LG successfully');
-                }
+                setState(() {
+                  connectionStatus = result ?? false;
+                });
               },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),

@@ -172,4 +172,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    ssh.disconnect();
+    super.dispose();
+  }
 }

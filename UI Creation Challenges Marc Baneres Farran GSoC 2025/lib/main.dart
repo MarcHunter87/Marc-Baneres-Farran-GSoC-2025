@@ -67,22 +67,27 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   void _onDestinationSelected(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (index == 0) {
-      _homeController.reset();
-      _homeController.forward();
-    } else if (index == 1) {
-      _settingsController.reset();
-      _settingsController.forward();
+    if (_selectedIndex != index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+      if (index == 0) {
+        _homeController.reset();
+        _homeController.forward();
+      } else if (index == 1) {
+        _settingsController.reset();
+        _settingsController.forward();
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: AnimatedBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onTap: _onDestinationSelected,

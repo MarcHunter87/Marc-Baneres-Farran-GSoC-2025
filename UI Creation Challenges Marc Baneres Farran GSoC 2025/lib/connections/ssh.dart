@@ -45,7 +45,7 @@ class SSH {
   makeFile(String filename, String content) async {
     try {
       var localPath = await getApplicationDocumentsDirectory();
-      File localFile = File('${localPath.path}/${filename}.kml');
+      File localFile = File('${localPath.path}/$filename.kml');
       await localFile.writeAsString(content);
       return localFile;
     } catch (e) {
@@ -125,6 +125,17 @@ class SSH {
     } catch (e) {
       print('An error occurred while clearing the KML: $e');
       await clearKML();
+    }
+  }
+
+  Future<void> disconnect() async {
+    try {
+      if (_client != null) {
+        _client!.close();
+        _client = null;
+      }
+    } catch (e) {
+      print('Error al desconectar: $e');
     }
   }
 }
