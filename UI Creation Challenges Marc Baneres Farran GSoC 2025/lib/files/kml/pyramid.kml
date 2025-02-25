@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>pyramid.kml</name>
+	<Style id="failed">
+	</Style>
+	<StyleMap id="mfailed">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#failed</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_ylw-pushpin</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="sh_ylw-pushpin">
+		<IconStyle>
+			<scale>1.2</scale>
+		</IconStyle>
+		<BalloonStyle>
+		</BalloonStyle>
+	</Style>
+	<Placemark>
+		<name>pyramid</name>
+		<LookAt>
+			<longitude>26.27846064776714</longitude>
+			<latitude>25.47443353569702</latitude>
+			<altitude>0</altitude>
+			<heading>0.780050579674419</heading>
+			<tilt>46.63871485249025</tilt>
+			<range>4299.15918877131</range>
+			<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+		</LookAt>
+		<styleUrl>#mfailed</styleUrl>
+		<Model id="model_4">
+			<Location>
+				<longitude>26.27825193656084</longitude>
+				<latitude>25.47351961686576</latitude>
+				<altitude>0</altitude>
+			</Location>
+			<Orientation>
+				<heading>-7.010384323850668</heading>
+				<tilt>0</tilt>
+				<roll>0</roll>
+			</Orientation>
+			<Scale>
+				<x>1000</x>
+				<y>1000</y>
+				<z>1000</z>
+			</Scale>
+			<Link>
+				<href>pyramid.dae</href>
+			</Link>
+			<ResourceMap>
+				<Alias>
+					<targetHref>pyramid.jpg</targetHref>
+					<sourceHref>pyramid.jpg</sourceHref>
+				</Alias>
+			</ResourceMap>
+		</Model>
+		<atom:link rel="app" href="https://www.google.com/earth/about/versions/#earth-pro" title="Google Earth Pro 7.3.6.10201"></atom:link>
+	</Placemark>
+</Document>
+</kml>
