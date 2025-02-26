@@ -150,4 +150,66 @@ class SSH {
       print('Error al desconectar: $e');
     }
   }
+
+  makeDAEFile(String filename, String content) async {
+    try {
+      var localPath = await getApplicationDocumentsDirectory();
+      File localFile = File('${localPath.path}/$filename.dae');
+      await localFile.writeAsString(content);
+      return localFile;
+    } catch (e) {
+      print('Ocurrió un error al crear el archivo DAE: $e');
+      return null;
+    }
+  }
+
+  uploadDAEFile(File inputFile, String daeName) async {
+    try {
+      bool uploading = true;
+      final sftp = await _client!.sftp();
+      final file = await sftp.open('/var/www/html/$daeName.dae',
+          mode: SftpFileOpenMode.create |
+              SftpFileOpenMode.truncate |
+              SftpFileOpenMode.write);
+      var fileSize = await inputFile.length();
+      file.write(inputFile.openRead().cast(), onProgress: (progress) async {
+        if (fileSize == progress) {
+          uploading = false;
+        }
+      });
+    } catch (e) {
+      print('Ocurrió un error al subir el archivo DAE: $e');
+    }
+  }
+
+  makeDAETexture(String filename, List<int> content) async {
+    try {
+      var localPath = await getApplicationDocumentsDirectory();
+      File localFile = File('${localPath.path}/$filename');
+      await localFile.writeAsBytes(content);
+      return localFile;
+    } catch (e) {
+      print('Ocurrió un error al crear el archivo de textura: $e');
+      return null;
+    }
+  }
+
+  uploadDAETexture(File textureFile, String textureName) async {
+    try {
+      bool uploading = true;
+      final sftp = await _client!.sftp();
+      final file = await sftp.open('/var/www/html/$textureName',
+          mode: SftpFileOpenMode.create |
+              SftpFileOpenMode.truncate |
+              SftpFileOpenMode.write);
+      var fileSize = await textureFile.length();
+      file.write(textureFile.openRead().cast(), onProgress: (progress) async {
+        if (fileSize == progress) {
+          uploading = false;
+        }
+      });
+    } catch (e) {
+      print('Ocurrió un error al subir la textura: $e');
+    }
+  }
 }

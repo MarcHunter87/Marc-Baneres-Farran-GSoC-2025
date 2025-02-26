@@ -112,7 +112,37 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ReusableCard(
                 colour: const Color(0xFF424242),
                 onPress: () async {
-                  _advanceProgress(3);
+                  String daeContent =
+                      await rootBundle.loadString('lib/files/dae/pyramid.dae');
+                  File? daeFile = await ssh.makeDAEFile('pyramid', daeContent);
+                  if (daeFile != null) {
+                    await ssh.uploadDAEFile(daeFile, 'pyramid');
+
+                    ByteData textureData =
+                        await rootBundle.load('lib/files/dae/pyramid.jpg');
+                    List<int> textureBytes = textureData.buffer.asUint8List();
+                    File? textureFile =
+                        await ssh.makeDAETexture('pyramid.jpg', textureBytes);
+                    if (textureFile != null) {
+                      await ssh.uploadDAETexture(textureFile, 'pyramid.jpg');
+
+                      String content = await rootBundle
+                          .loadString('lib/files/kml/Pyramid.kml');
+                      File? localFile = await ssh.makeFile('Pyramid', content);
+                      if (localFile != null) {
+                        await ssh.uploadKMLFile(localFile, 'Pyramid');
+                        await ssh.loadKML('Pyramid');
+                        await ssh.flyTo(content);
+                        _advanceProgress(3);
+                      } else {
+                        print('The KML file is null');
+                      }
+                    } else {
+                      print('The texture file is null');
+                    }
+                  } else {
+                    print('The DAE file is null');
+                  }
                 },
                 cardChild: const Center(
                   child: Text(
