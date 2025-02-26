@@ -127,11 +127,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       await ssh.uploadDAETexture(textureFile, 'pyramid.jpg');
 
                       String content = await rootBundle
-                          .loadString('lib/files/kml/Pyramid.kml');
-                      File? localFile = await ssh.makeFile('Pyramid', content);
+                          .loadString('lib/files/kml/pyramid.kml');
+                      File? localFile = await ssh.makeFile('pyramid', content);
                       if (localFile != null) {
-                        await ssh.uploadKMLFile(localFile, 'Pyramid');
-                        await ssh.loadKML('Pyramid');
+                        await ssh.uploadKMLFile(localFile, 'pyramid');
+                        await ssh.loadKML('pyramid');
                         await ssh.flyTo(content);
                         _advanceProgress(3);
                       } else {
