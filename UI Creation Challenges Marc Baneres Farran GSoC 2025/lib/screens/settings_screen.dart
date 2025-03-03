@@ -11,7 +11,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final SSH ssh = SSH(); // Ahora usa la instancia singleton
+  final SSH ssh = SSH();
   bool connectionStatus = false;
   bool _showPassword = false;
 
@@ -39,7 +39,6 @@ class _SettingsPageState extends State<SettingsPage> {
     _passwordController.dispose();
     _sshPortController.dispose();
     _rigsController.dispose();
-    // No necesitamos desconectar aquí
     super.dispose();
   }
 
