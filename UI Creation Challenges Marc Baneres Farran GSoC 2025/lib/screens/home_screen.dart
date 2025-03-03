@@ -176,6 +176,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 100,
+              child: ReusableCard(
+                colour: const Color(0xFF424242),
+                onPress: () {
+                  _advanceProgress(displayProgress + 1);
+                },
+                cardChild: const Center(
+                  child: Text(
+                    'PROGRESS BAR',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(height: 16),
             MilestoneProgressBar(
               targetProgress: targetProgress,
