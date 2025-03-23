@@ -1,0 +1,2 @@
+C:/Users/march/Documents/GitHub/Marc-Baneres-Farran-GSoC-2025/UI Creation Challenges Marc Baneres Farran GSoC 2025/android/app/.cxx/RelWithDebInfo/4t3x363o/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/march/Documents/GitHub/Marc-Baneres-Farran-GSoC-2025/UI Creation Challenges Marc Baneres Farran GSoC 2025/android/app/.cxx/RelWithDebInfo/4t3x363o/x86_64/CMakeFiles/rebuild_cache.dir

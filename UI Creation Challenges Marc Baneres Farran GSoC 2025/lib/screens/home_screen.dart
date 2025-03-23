@@ -46,15 +46,30 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _advanceProgress(int nextProgress) async {
-    if (nextProgress == displayProgress + 1) {
+    setState(() {
+      targetProgress = nextProgress;
+    });
+    Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
-        targetProgress = nextProgress;
+        displayProgress = nextProgress;
       });
-      Future.delayed(const Duration(milliseconds: 500), () {
-        setState(() {
-          displayProgress = nextProgress;
-        });
+    });
+  }
+
+  Future<void> _retreatProgress(int previousProgress) async {
+    setState(() {
+      targetProgress = previousProgress;
+    });
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        displayProgress = previousProgress;
       });
+    });
+  }
+
+  Future<void> _tryAdvanceWithConnection(int step) async {
+    if (connectionStatus && step == displayProgress + 1) {
+      _advanceProgress(step);
     }
   }
 
@@ -90,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         localFile, 'Night light in India during Diwali');
                     await ssh.loadKML('Night light in India during Diwali');
                     await ssh.flyTo(content);
-                    _advanceProgress(2);
+                    _tryAdvanceWithConnection(2);
                   } else {
                     print('The file is null');
                   }
@@ -133,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         await ssh.uploadKMLFile(localFile, 'pyramid');
                         await ssh.loadKML('pyramid');
                         await ssh.flyTo(content);
-                        _advanceProgress(3);
+                        _tryAdvanceWithConnection(3);
                       } else {
                         print('The KML file is null');
                       }
@@ -162,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 colour: const Color(0xFF424242),
                 onPress: () async {
                   await ssh.clearKML();
-                  _advanceProgress(4);
+                  _tryAdvanceWithConnection(4);
                 },
                 cardChild: const Center(
                   child: Text(
@@ -178,21 +193,46 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(
               height: 100,
-              child: ReusableCard(
-                colour: const Color(0xFF424242),
-                onPress: () {
-                  _advanceProgress(displayProgress + 1);
-                },
-                cardChild: const Center(
-                  child: Text(
-                    'PROGRESS BAR',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ReusableCard(
+                      colour: const Color(0xFF424242),
+                      onPress: () {
+                        _retreatProgress(displayProgress - 1);
+                      },
+                      cardChild: const Center(
+                        child: Text(
+                          'PB Previous',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ReusableCard(
+                      colour: const Color(0xFF424242),
+                      onPress: () {
+                        _advanceProgress(displayProgress + 1);
+                      },
+                      cardChild: const Center(
+                        child: Text(
+                          'PB Next',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 16),
